@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Piano Project</title>
+    <style>
+        .container{
+            margin: 38vh 38vh 0 38vh;
+            text-align: center
+        }
+        .pBtn{
+            border: none;
+            background-color: pink;
+            border: 1px solid black;
+            height: 150px;
+            border-radius: 10px;
+            margin-right: 0;
+        }
+        
+        input{
+            width: 22%;
+            height: 40px;
+            border: 2px solid gray;
+            border-radius: 7px;
+        }
+        .saveBtn{
+            height: 40px;
+            border: none;
+            background: #d3d2d2;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+        #list{
+            margin-left: 88vh;
+        }
+        ul>li{
+            margin-bottom: 10px;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" name="" id="cords">
+        <button class="saveBtn" onclick="saveCord()">Save</button>
+        <br><br>
+        <button class="pBtn" onclick="run('C4')">C4</button>
+        <button class="pBtn" onclick="run('D4')">D4</button>
+        <button class="pBtn" onclick="run('E4')">E4</button>
+        <button class="pBtn" onclick="run('F4')">F4</button>
+        <button class="pBtn" onclick="run('G4')">G4</button>
+        <button class="pBtn" onclick="run('A4')">A4</button>
+        <button class="pBtn" onclick="run('B4')">B4</button>
+        <button class="pBtn" onclick="run('C5')">C5</button>   
+    </div>
+    <ul id="list">
+    </ul>
+
+    <script>
+        let cords = document.getElementById("cords");
+        let pianoMemory = [];
+        let list = document.getElementById("list");
+        function run(x){
+            const a = new Audio(`sound/${x}.mp3`);
+            a.play();
+            cords.value += x +",";
+            console.log(`you play ${x} keys`);
+        }
+
+        function saveCord(){
+            let input = cords.value;
+            pianoMemory.push(input);
+            console.log(`${input} is save memory`);
+            cords.value = "";
+            list.innerHTML = "";
+            pianoMemory.map(function(el, index){
+                list.innerHTML +=`<li>${el}<button onclick="rePlay(${index})">Replay</button> </li>`;
+            })
+        }
+
+        let m = ["C4","E4","B4"];
+
+        function runMemory(arr,delay=1000){
+            let x = Number(delay);
+            arr.map(function (el,index){
+                setTimeout(run,x,el);
+                x+=delay;
+            });
+        }
+        
+        function rePlay(x){
+            let current = pianoMemory[x].split(",");
+            // let tempo = prompt("input tempo in ms");
+            current.pop();
+            // console.log(current);
+            runMemory(current);
+        }
+        document.addEventListener("keyup",function(e){
+            console.log(e.keyCode);
+            let current = e.keyCode;
+            switch(e.keyCode){
+                case 65: run('C4');
+                break;
+                case 83: run('D4');
+                break;
+                case 68: run('E4');
+                break;
+                case 70: run('F4');
+                break;
+                case 74: run('G4');
+                break;
+                case 75: run('A4');
+                break;
+                case 76: run('B4');
+                break;
+                case 186: run('C5');
+                break;
+            }
+        })
+    </script>
+</body>
+</html>
