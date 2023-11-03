@@ -1,0 +1,23 @@
+@import '../node_modules/@fortawesome/fontawesome-free/css/all.min.css';
+
+
+
+.empty:last-child{
+    display: table-row;
+}
+
+.empty{
+    display: none;
+}
+
+body {
+    counter-reset: rowCount;
+  }
+  
+  .rowNum::before {
+    counter-increment: rowCount;
+    content:  counter(rowCount) ;
+  }
+
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+
